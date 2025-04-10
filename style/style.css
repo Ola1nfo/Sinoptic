@@ -1,8 +1,10 @@
-/* body {
+body {
   background-color: #f0f8ff;
-  color: blue;
+  color: rgb(255, 255, 255);
   margin: 0 auto;
   padding: 20px;
+  width: 800px;
+  border: 1px solid black;
 }
 
 h1 {
@@ -10,61 +12,73 @@ h1 {
   color: #0066cc;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-li {
-  background-color: #daf3ff;
-  margin: 10px 10px;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 18px;
-}
-
-li img {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-}# sourceMappingURL=style.css.map */
-
-
-
-body{
-  width: 400px;
-  margin: 0 auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
-}
-
-.accordion{
-  padding: 10px;
+.tableInfo{
+  width: 750px;
+  height: 600px;
   background-color: green;
+  display: flex;
+  position: relative;
 }
 
-.accordion-item{
-  background-color: green;
+.mainInfo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
-.accordion-button{
+.tableInfoDay{
+  width: 150px;
+  height: 250px;
+  border: 1px solid rgb(0, 169, 0);
+  cursor: pointer;
   text-align: center;
-  background-color: green;
 }
 
-.accordion-collapse{
-  background-color: green;
+.tableInfoDown{
+  background-color: rgb(11, 89, 11);
+  border: 1px solid black;
+  width: 750px;
+  height: 350px;
+  position: absolute;
+  top: 250px;
+  display: none;
+}
+#tableInfoDown1{
+  display: block;
 }
 
-..accordion-body{
-  background-color: green;
+#tableInfoDown2{
+  left: 0px;
 }
 
+#tableInfoDown3{
+  left: 0px;
+}
+
+#tableInfoDown4{
+  left: 0px;
+}
+
+#tableInfoDown5{
+  left: 0px;
+}
+
+#dayOne{
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#dateOne{
+  color: #ccc;
+  font-size: 16px;
+}
+
+.icon{
+  margin: -20px;
+}
+
+.temp{
+  font-size: 22px;
+  font-weight: bold;
+}
