@@ -33,6 +33,8 @@ async function fetchData(url){
         }
         showInfo(data)
         showInfo5Days(data)
+        showInfoDown(data)
+        showInfo5DaysDown(data)
     } catch (error) {
         console.error(error);
     }
@@ -76,7 +78,7 @@ function showInfo5Days(data) {
         const { dt_txt, main, weather, wind } = dayNext;
         const { temp_max, temp_min } = main;
         const { description, icon } = weather[0];
-        const img = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+        const img = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
         const date = new Date(dt_txt);
         const dayName = date.toLocaleString('uk-UA', { weekday: 'long' });
@@ -95,4 +97,70 @@ function showInfo5Days(data) {
         tableInfoDay.innerHTML = elements;
     }
 
+}
+
+function showInfoDown(data){
+    const forecast = data.list[1];
+
+    const{dt_txt, main, visibility, weather, wind} = forecast
+    const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
+    const {description, icon} = weather[0]
+    const {deg, gust, speed} = wind
+    const img = `https://openweathermap.org/img/wn/${icon}@2x.png`
+
+    const time = new Date(dt_txt).toLocaleTimeString('uk-UA', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    const tempCelsius = Math.round(temp - 273.15);
+
+    const tableInfoDown1 = document.getElementById('tableInfoDown1')
+    const elements = `
+        <p>${time}</p>
+        <p>${tempCelsius}°</p>
+    `
+    tableInfoDown1.innerHTML = elements
+}
+
+function showInfo5DaysDown(data) {
+    const downBlocks = document.querySelectorAll('.tableInfoDown');
+
+    downBlocks.forEach(block => block.innerHTML = '');
+
+    const startDate = new Date(data.list[0].dt_txt);
+
+    for (let i = 1; i <= 5; i++) {
+        const nowDay = new Date(startDate);
+        nowDay.setDate(nowDay.getDate() + i);
+        const currentDayStr = nowDay.toISOString().split('T')[0];
+
+        const dayForecasts = data.list.filter(item => item.dt_txt.startsWith(currentDayStr));
+        const downBlock = document.getElementById(`tableInfoDown${i}`);
+
+        if (!downBlock) continue;
+
+        let downBlockContent = '';
+
+        dayForecasts.forEach(entry => {
+            const { dt_txt, main, weather, wind } = entry;
+            const { temp_max, temp_min } = main;
+            const { description, icon } = weather[0];
+            const img = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+            const time = new Date(dt_txt).toLocaleTimeString('uk-UA', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const temp = Math.round(entry.main.temp - 273.15);
+
+            downBlockContent += `
+                <div class="forecast-time-container">
+                    <p class="forecast-time">${time}</p>
+                    <p class="forecast-temp">${temp}°</p>
+                </div>
+            `;
+        });
+        downBlockContent +=
+        downBlock.innerHTML = downBlockContent;
+    }
 }
