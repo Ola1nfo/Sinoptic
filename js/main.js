@@ -3,14 +3,26 @@ const downBlocks = document.querySelectorAll('.tableInfoDown');
 
 dayBlocks.forEach((dayBlock, index) => {
     dayBlock.addEventListener('click', () => {
-        const downBlock = downBlocks[index]
-        if(downBlock.style.display === 'none' || downBlock.style.display === ''){
-            downBlock.style.display = 'block'
-        } else {
-            downBlock.style.display = 'none'
+        const downBlock = downBlocks[index];
+        const isVisible = downBlock.style.display === 'block';
+
+        downBlocks.forEach(block => {
+            block.style.display = 'none';
+            block.classList.remove('active');
+        });
+
+        dayBlocks.forEach(block => {
+            block.classList.remove('active-day');
+        });
+
+        if (!isVisible) {
+            downBlock.style.display = 'block';
+            downBlock.classList.add('active');
+            dayBlock.classList.add('active-day');
         }
-    })
-})
+    });
+});
+
 
 const search = document.getElementById('search')
 
@@ -19,9 +31,27 @@ search.addEventListener('click', () => {fetchData(generateURL())})
 
 function generateURL() {
     const cityName = document.querySelector('input').value
-    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=ua&appid=418b95f1f028afc1a3c10087c1d8db0d`
+    const langBrow = navigator.language
+    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=${langBrow}&appid=418b95f1f028afc1a3c10087c1d8db0d`
+   
     return mainUrl
 }
+
+function generateGeoURL(lat, lon) {
+    const langBrow = navigator.language
+    const mainUrlGeo = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&lang=${langBrow}&appid=418b95f1f028afc1a3c10087c1d8db0d`
+
+    return mainUrlGeo
+}
+
+document.getElementById('myLocationBtn').addEventListener('click', () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const geoUrl = generateGeoURL(lat, lon);
+        fetchData(geoUrl)
+    });
+});
 
 async function fetchData(url){
     try {
@@ -142,21 +172,29 @@ function showInfo5DaysDown(data) {
         let downBlockContent = '';
 
         dayForecasts.forEach(entry => {
-            const { dt_txt, main, weather, wind } = entry;
-            const { temp_max, temp_min } = main;
-            const { description, icon } = weather[0];
+            const{dt_txt, main, visibility, weather, wind, pop} = entry
+            const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
+            const {description, icon} = weather[0]
+            const {deg, gust, speed} = wind
             const img = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            
 
             const time = new Date(dt_txt).toLocaleTimeString('uk-UA', {
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            const temp = Math.round(entry.main.temp - 273.15);
+            const tempCelsius = Math.round(entry.main.temp - 273.15);
+            const popPercent = Math.round(pop * 100)            
 
             downBlockContent += `
                 <div class="forecast-time-container">
                     <p class="forecast-time">${time}</p>
-                    <p class="forecast-temp">${temp}°</p>
+                    <p class="forecast-temp">${tempCelsius}°</p>
+                    <p class="icon"><img src=${img}></p>
+                    <p class="forecast-pop"><img src="./img/free-icon-umbrella-1795512.png">${popPercent}%</p>
+                    <p class="forecast-speed"><img src="./img/free-icon-compass-998938.png">${speed}м/с</p>
+                    <p class="forecast-pressure"><img src="./img/free-icon-temperature-control-3625849.png">${pressure}мм</p>
+                    <p class="forecast-humidity"><img src="./img/free-icon-liquid-drop-8234265.png">${humidity}%</p>
                 </div>
             `;
         });
@@ -164,3 +202,26 @@ function showInfo5DaysDown(data) {
         downBlock.innerHTML = downBlockContent;
     }
 }
+
+const currentHour = new Date().getHours();
+if (currentHour >= 18 || currentHour < 6) {
+  document.body.classList.add('night-mode');
+}
+
+const toggleButton = document.getElementById('toggle-mode');
+
+if (localStorage.getItem('theme') === 'night') {
+  document.body.classList.add('night-mode');
+} else {
+  document.body.classList.remove('night-mode');
+}
+
+toggleButton.addEventListener('click', () => {
+  document.body.classList.toggle('night-mode');
+
+  if (document.body.classList.contains('night-mode')) {
+    localStorage.setItem('theme', 'night');
+  } else {
+    localStorage.setItem('theme', 'day');
+  }
+});

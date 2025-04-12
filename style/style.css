@@ -3,21 +3,79 @@ body {
   color: rgb(255, 255, 255);
   margin: 0 auto;
   padding: 20px;
-  width: 800px;
-  border: 1px solid black;
+  width: 900px;
+  font-size: 18px;
+}
+
+body.night-mode{
+  background-color: #363636;
+  color: #fff;
 }
 
 h1 {
   text-align: center;
-  color: #0066cc;
+  color: #6b8e23;
+  font-weight: bold;
+}
+
+.night-mode h1{
+  color: #cfb53b;
+}
+
+.custom-input {
+  border: 1px solid #2e8b57;
+  padding: 8px;
+  border-radius: 6px;
+  outline: none;
+  margin-right: -50px;
+}
+
+.night-mode .custom-input{
+  border: 1px solid #cfb53b;
+}
+
+.custom-input:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 5px #2e8b5685;
+}
+
+.night-mode .custom-input:focus{
+  border-color: #cfb53b;
+  box-shadow: 0 0 5px #fbeb5d80;
+}
+
+#search,
+#myLocationBtn,
+#toggle-mode{
+  padding: 8px;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.night-mode #search,
+.night-mode #myLocationBtn,
+.night-mode #toggle-mode{
+  border: 1px solid #cfb53b;
+  color: #cfb53b;
+}
+
+.night-mode #search:hover,
+.night-mode #myLocationBtn:hover,
+.night-mode #toggle-mode:hover{
+  color: #fff;
+  background-color: #cfb53b;
 }
 
 .tableInfo{
-  width: 750px;
-  height: 600px;
-  background-color: green;
+  width: 850px;
+  height: 700px;
+  background-color: #2e8b57;
   display: flex;
   position: relative;
+}
+
+.night-mode .tableInfo{
+  background-color: #cfb53b;
 }
 
 .mainInfo {
@@ -27,24 +85,38 @@ h1 {
 }
 
 .tableInfoDay{
-  width: 150px;
-  height: 250px;
-  border: 1px solid rgb(0, 169, 0);
+  width: 170px;
+  height: 280px;
+  border: 1px solid #cfb53b;
   cursor: pointer;
   text-align: center;
+  padding-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.night-mode .tableInfoDay{
+  border: 1px solid #2e8b57;
+}
+
+.tableInfoDay.active-day {
+  background-color: #6b8e23;
+  border-bottom: none;
 }
 
 .tableInfoDown{
-  background-color: rgb(11, 89, 11);
-  border: 1px solid black;
-  width: 750px;
-  height: 350px;
+  background-color: #6b8e23;
+  border: 1px solid #6b8e23;
+  width: 850px;
+  height: 420px;
   position: absolute;
-  top: 250px;
+  top: 280px;
   display: none;
+  z-index: 1;
+  transition: all 0.3s ease;
 }
-#tableInfoDown1{
-  display: block;
+
+.tableInfoDown.active {
+  z-index: 10;
 }
 
 #tableInfoDown2{
@@ -66,35 +138,71 @@ h1 {
 #dayOne{
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 #dateOne{
   color: #ccc;
-  font-size: 16px;
 }
 
 .icon{
-  margin: -20px;
+  margin: -15px;
+  text-align: center;
 }
 
 .temp{
-  font-size: 22px;
+  font-size: 26px;
   font-weight: bold;
 }
 
 .forecast-time-container {
   display: inline-block;
-  text-align: center;
-  margin-right: 10px;
+  margin: 8px;
 }
 
 .forecast-time {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
+  color: #ccc;
+  text-align: center;
 }
 
 .forecast-temp {
-  font-size: 12px;
+  font-size: 22px;
+  font-weight: bold;
   margin-top: 5px;
+  text-align: center;
+}
+
+.forecast-pop{
+  margin-top: 20px;
+}
+
+.forecast-humidity,
+.forecast-pressure,
+.forecast-speed,
+.forecast-pop{
+  font-size: 16px;
+}
+
+.forecast-humidity img{
+  width: 23px;
+  margin-right: 8px;
+  margin-bottom: 5px;
+}
+
+.forecast-pressure img{
+  width: 23px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.forecast-speed img{
+  width: 23px;
+  margin-right: 8px;
+  margin-bottom: 5px;
+}
+
+.forecast-pop img{
+  width: 23px;
+  margin-right: 8px;
 }
