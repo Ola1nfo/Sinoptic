@@ -31,9 +31,8 @@ search.addEventListener('click', () => {fetchData(generateURL())})
 
 function generateURL() {
     const cityName = document.querySelector('input').value
-    const language = document.getElementById('language').value
     const langBrow = navigator.language
-    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=${language}&appid=418b95f1f028afc1a3c10087c1d8db0d`
+    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=${langBrow}&appid=418b95f1f028afc1a3c10087c1d8db0d`
    
     return mainUrl
 }
@@ -82,8 +81,8 @@ function getMyIcon(icon) {
         '11d': 'thunderstorm.gif',
         '13d': 'snow.gif',
         '50d': 'mist.gif',
-        '01n': 'sun.gif',
-        '02n': 'cloud.gif',
+        '01n': 'moon.gif',
+        '02n': 'cloudN.gif',
         '03n': 'cloudy.gif',
         '04n': 'clouds.gif',
         '10n': 'rain.gif',
@@ -106,9 +105,7 @@ function showInfo(data){
     const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
     const {description, icon} = weather[0]
     const {deg, gust, speed} = wind
-    const img = getMyIcon(icon)
-    console.log(data);
-    
+    const img = getMyIcon(icon)    
 
     const date = new Date(dt_txt);
     const dayName = date.toLocaleString('uk-UA', { weekday: 'long' });
@@ -235,10 +232,12 @@ function showInfo5DaysDown(data) {
     }
 }
 
-const currentHour = new Date().getHours();
-if (currentHour >= 18 || currentHour < 6) {
-  document.body.classList.add('night-mode');
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 18 || currentHour < 6) {
+      document.body.classList.add('night-mode');
+    }
+  });
 
 const toggleButton = document.getElementById('toggle-mode');
 
