@@ -66,6 +66,13 @@ h1 {
   background-color: #cfb53b;
 }
 
+.night-mode #search:focus,
+.night-mode #myLocationBtn:focus,
+.night-mode #toggle-mode:focus{
+  outline: none;
+  box-shadow: 0 0 3px 3px #cfb53b;
+}
+
 .tableInfo{
   width: 850px;
   height: 700px;
@@ -145,9 +152,14 @@ h1 {
   color: #ccc;
 }
 
-.icon{
-  margin: -15px;
-  text-align: center;
+.iconMain img{
+  margin: -30px;
+  width: 130px;
+}
+
+.iconItem img{
+  width: 60px;
+  margin-left: 8px;
 }
 
 .temp{

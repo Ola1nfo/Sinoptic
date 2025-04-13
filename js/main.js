@@ -31,8 +31,9 @@ search.addEventListener('click', () => {fetchData(generateURL())})
 
 function generateURL() {
     const cityName = document.querySelector('input').value
+    const language = document.getElementById('language').value
     const langBrow = navigator.language
-    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=${langBrow}&appid=418b95f1f028afc1a3c10087c1d8db0d`
+    const mainUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&lang=${language}&appid=418b95f1f028afc1a3c10087c1d8db0d`
    
     return mainUrl
 }
@@ -70,13 +71,44 @@ async function fetchData(url){
     }
 }
 
+function getMyIcon(icon) {
+    const icons = {
+        '01d': 'sun.gif',
+        '02d': 'cloud.gif',
+        '03d': 'cloudy.gif',
+        '04d': 'clouds.gif',
+        '10d': 'rain.gif',
+        '09d': 'showerRain.gif',
+        '11d': 'thunderstorm.gif',
+        '13d': 'snow.gif',
+        '50d': 'mist.gif',
+        '01n': 'sun.gif',
+        '02n': 'cloud.gif',
+        '03n': 'cloudy.gif',
+        '04n': 'clouds.gif',
+        '10n': 'rain.gif',
+        '09n': 'showerRain.gif',
+        '11n': 'thunderstorm.gif',
+        '13n': 'snow.gif',
+        '50n': 'mist.gif',
+    }
+    const chooseIcon = icon.toLowerCase()
+    for(let key in icons){
+        if (chooseIcon.includes(key)){
+            return `./img/${icons[key]}`
+        }
+    }
+}
+
 function showInfo(data){
     const all = data.list[0]
     const{dt_txt, main, visibility, weather, wind} = all
     const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
     const {description, icon} = weather[0]
     const {deg, gust, speed} = wind
-    const img = `https://openweathermap.org/img/wn/${icon}@2x.png`
+    const img = getMyIcon(icon)
+    console.log(data);
+    
 
     const date = new Date(dt_txt);
     const dayName = date.toLocaleString('uk-UA', { weekday: 'long' });
@@ -88,7 +120,7 @@ function showInfo(data){
     const elements = `
         <p id="dayOne">${dayName}</p>
         <p id="dateOne">${formattedDate}</p>
-        <p class="icon"><img src=${img}></p>
+        <p class="iconMain"><img src=${img}></p>
         <p class="temp">${tempCelsiusMax}°  ${tempCelsiusMin}°</p>
         <p>${description}</p>
     `
@@ -108,7 +140,7 @@ function showInfo5Days(data) {
         const { dt_txt, main, weather, wind } = dayNext;
         const { temp_max, temp_min } = main;
         const { description, icon } = weather[0];
-        const img = `https://openweathermap.org/img/wn/${icon}@2x.png`
+        const img = getMyIcon(icon)
 
         const date = new Date(dt_txt);
         const dayName = date.toLocaleString('uk-UA', { weekday: 'long' });
@@ -120,7 +152,7 @@ function showInfo5Days(data) {
         const elements = `
             <p id="dayOne">${dayName}</p>
             <p id="dateOne">${formattedDate}</p>
-            <p class="icon"><img src=${img}></p>
+            <p class="iconMain"><img src=${img}></p>
             <p class="temp">${tempCelsiusMax}°  ${tempCelsiusMin}°</p>
             <p>${description}</p>
         `;
@@ -136,7 +168,7 @@ function showInfoDown(data){
     const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
     const {description, icon} = weather[0]
     const {deg, gust, speed} = wind
-    const img = `https://openweathermap.org/img/wn/${icon}@2x.png`
+    const img = getMyIcon(icon)
 
     const time = new Date(dt_txt).toLocaleTimeString('uk-UA', {
         hour: '2-digit',
@@ -176,7 +208,7 @@ function showInfo5DaysDown(data) {
             const {feel_like, grnd_level, humidity, pressure, sea_level, temp, temp_kf, temp_max, temp_min} = main
             const {description, icon} = weather[0]
             const {deg, gust, speed} = wind
-            const img = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            const img = getMyIcon(icon)
             
 
             const time = new Date(dt_txt).toLocaleTimeString('uk-UA', {
@@ -190,7 +222,7 @@ function showInfo5DaysDown(data) {
                 <div class="forecast-time-container">
                     <p class="forecast-time">${time}</p>
                     <p class="forecast-temp">${tempCelsius}°</p>
-                    <p class="icon"><img src=${img}></p>
+                    <p class="iconItem"><img src=${img}></p>
                     <p class="forecast-pop"><img src="./img/free-icon-umbrella-1795512.png">${popPercent}%</p>
                     <p class="forecast-speed"><img src="./img/free-icon-compass-998938.png">${speed}м/с</p>
                     <p class="forecast-pressure"><img src="./img/free-icon-temperature-control-3625849.png">${pressure}мм</p>
