@@ -213,7 +213,9 @@ function showInfo5DaysDown(data) {
                 minute: '2-digit'
             });
             const tempCelsius = Math.round(entry.main.temp - 273.15);
-            const popPercent = Math.round(pop * 100)            
+            const popPercent = Math.round(pop * 100)
+            const pressureHpa = 1013;
+            const pressureA = Math.round(pressureHpa * 0.75006);            
 
             downBlockContent += `
                 <div class="forecast-time-container">
@@ -222,7 +224,7 @@ function showInfo5DaysDown(data) {
                     <p class="iconItem"><img src=${img}></p>
                     <p class="forecast-pop"><img src="./img/free-icon-umbrella-1795512.png">${popPercent}%</p>
                     <p class="forecast-speed"><img src="./img/free-icon-compass-998938.png">${speed}м/с</p>
-                    <p class="forecast-pressure"><img src="./img/free-icon-temperature-control-3625849.png">${pressure}мм</p>
+                    <p class="forecast-pressure"><img src="./img/free-icon-temperature-control-3625849.png">${pressureA}мм</p>
                     <p class="forecast-humidity"><img src="./img/free-icon-liquid-drop-8234265.png">${humidity}%</p>
                 </div>
             `;
